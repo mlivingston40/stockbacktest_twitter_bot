@@ -7,9 +7,9 @@ last_data_date = str(get_data('AAPL', get_date_str(-7), get_date_str(1)).tail(1)
 buy_stocks = []
 sell_stocks = []
 
-today = get_date_str(0)
+yesterday = get_date_str(-1)
 
-if last_data_date == get_date_str(0):
+if last_data_date == get_date_str(-1):
     # grab complete list of tickers if date check is passed
     url = "https://www.quandl.com/api/v3/datatables/WIKI/PRICES.json?api_key=KapYhbV5ziJVKXGakJQC&qopts.columns=ticker&date=2017-10-11"
     t = requests.get(url)
@@ -18,7 +18,7 @@ if last_data_date == get_date_str(0):
     for i in lists:
         for x in i:
             tickers.append(x)
-    for i in tickers:
+    for i in tickers[:100]:
         sleep(.2)
         data = get_data(i, get_date_str(-126), get_date_str(1))
         sma = moving_average_df(20, data=data)
@@ -49,8 +49,8 @@ else:
 if len(buy_stocks) == 0:
     pass
 else:
-    tweet("Hello! Based on Today's Stock Market Close - {}, above"
-          " are stocks that have buy signals based on a Mean Reversion Strategy:".format(today))
+    tweet("Hello! Based on Yesterday's Stock Market Close - {}, above"
+          " are stocks that have buy signals based on a Mean Reversion Strategy:".format(yesterday))
     for i in buy_stocks:
         tweet("${} #{} https://www.stockbacktest.io/meanreversion/result/{}/2017-01-01/2019-03-09/20/80".format(i, i, i))
 
@@ -59,8 +59,8 @@ else:
 if len(sell_stocks) == 0:
     pass
 else:
-    tweet("Hello! Based on Today's Stock Market Close - {}, above"
-          " are stocks that have sell signals based on a Mean Reversion Strategy:".format(today))
+    tweet("Hello! Based on Yesterday's Stock Market Close - {}, above"
+          " are stocks that have sell signals based on a Mean Reversion Strategy:".format(yesterday))
     for i in sell_stocks:
         tweet("${} #{} https://www.stockbacktest.io/meanreversion/result/{}/2017-01-01/2019-03-09/20/80".format(i, i, i))
 

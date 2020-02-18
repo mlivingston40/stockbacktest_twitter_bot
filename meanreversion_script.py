@@ -4,6 +4,7 @@ from models.twitter_connection import *
 
 last_data_date = str(get_data('AAPL', get_date_str(-7), get_date_str(1)).tail(1).index.date[0])
 
+apiKey = 'Key'
 buy_stocks = []
 sell_stocks = []
 
@@ -11,7 +12,7 @@ yesterday = get_date_str(-1)
 
 if last_data_date == get_date_str(-1):
     # grab complete list of tickers if date check is passed
-    url = "https://www.quandl.com/api/v3/datatables/WIKI/PRICES.json?api_key=KapYhbV5ziJVKXGakJQC&qopts.columns=ticker&date=2017-10-11"
+    url = "https://www.quandl.com/api/v3/datatables/WIKI/PRICES.json?api_key={}&qopts.columns=ticker&date=2017-10-11".format(apiKey)
     t = requests.get(url)
     lists = t.json()['datatable']['data']
     tickers = []
